@@ -5,8 +5,7 @@ import sqlite3
 import string
 import random
 
-# On many PaaS platforms, writing to /data is not allowed unless a volume is mounted.
-# /tmp is usually writable.
+# writable path on most PaaS
 DB_PATH = os.getenv("DB_PATH", "/tmp/db.sqlite3")
 
 app = FastAPI(title="Mini PaaS Demo (URL Shortener)")
@@ -42,12 +41,11 @@ def on_startup():
 
 @app.get("/health")
 def health():
-    return {"ok": True, "db_path": DB_PATH}
+    return {"ok": True}
 
 @app.post("/create")
 def create(req: CreateReq):
     code = gen_code()
-
     con = sqlite3.connect(DB_PATH)
     cur = con.cursor()
 

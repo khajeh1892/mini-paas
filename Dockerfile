@@ -5,10 +5,10 @@ WORKDIR /app
 COPY app/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app/main.py .
+COPY app/ .
 
-ENV DB_PATH=/data/db.sqlite3
+# ParsPack معمولاً /data را writable نمی‌دهد؛ /tmp قابل نوشتن است
+ENV DB_PATH=/tmp/db.sqlite3
 
 EXPOSE 8080
-
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
